@@ -5,6 +5,9 @@ from flask_login import login_user, logout_user, \
 from app import app, db, lm, oid
 from .forms import LoginForm
 
+#add
+from .models import User
+
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -39,14 +42,15 @@ def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('index'))
 
+    flash('you will login .... ')
     form = LoginForm()
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
         flash('Login requested for OpenId=' + form.openid.data +\
               ", remember me=" + str(form.remember_me.data))
-        #return redirect('/index')
         return oid.try_login(form.openid.data, ask_for=['nickname', 'email'])
 
+    flash('return to login html')
     return render_template(
         'login.html',
         title = 'Sign In',
@@ -66,16 +70,19 @@ def after_login(resp):
         nickname = resp.nickname
         if nickname is None and nickname == "":
             nickname = resp.email.split('@')[0]
-            user = User(nickname=nickname, email=resp.email, role = ROLE_USER)
-            db.session.add(user)
-            db.session.commit()
+        user = User(nickname=nickname, email=resp.email)
+        db.session.add(user)
+        db.session.commit()
+        if user is None:
+            return render_template('error.html',
+                    error = 'user is none' +resp.email)
     remember_me =  False
 
     if 'remember_me' in session:
         remember_me = session['remember_me']
         session.pop('remember_me', None)
 
-    login_user(user, remember_me=remember_me)
+    login_user(user, remember=remember_me)
     return redirect(request.args.get('next') or url_for('index'))
 
 @app.route('/logout')
