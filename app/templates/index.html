@@ -2,6 +2,6 @@
 {% block content %}
 	<h1> Hello, {{user.nickname}}!</h1>
 	{% for post in posts %}
-		<p>{{post.author.name}} book is : <b>{{post.author.body}}</b></p>
+		<p>{{post.author.name}} book is : <b>{{post.body}}</b></p>
 	{% endfor %}
 {% endblock %}

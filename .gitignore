@@ -1,2 +1,3 @@
 flask/
 *.stackdump
+tmp/
