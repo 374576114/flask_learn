@@ -56,10 +56,12 @@ class TestCase(unittest.TestCase):
         db.session.add(u)
         db.session.commit()
 
+        print u1.nickname
+        print u2.nickname
         print u1.is_following(u2)
+        print u1.followed
         print u1.followed.count()
-        print u1.followed.first().nickname
-        print u1.followers.count()
+        print u1.followed.first()
 
         assert u1.follow(u2) == None
         assert u1.is_following(u2)
