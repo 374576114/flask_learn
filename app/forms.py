@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 #from flaskForm import Form
 from wtforms import StringField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length
+from models import User, Post
 
 class LoginForm(FlaskForm):
 	openid = StringField('openid', validators=[DataRequired()])
@@ -27,3 +28,6 @@ class EditForm(FlaskForm):
                                         Please choose another one.')
             return False
         return True
+
+class PostForm(FlaskForm):
+    post = StringField('post',validators=[DataRequired()])

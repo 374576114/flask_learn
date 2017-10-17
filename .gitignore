@@ -1,4 +1,5 @@
 flask/
 *.stackdump
 tmp/
+tmp/associations/
 test.db

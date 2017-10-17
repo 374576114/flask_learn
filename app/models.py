@@ -54,7 +54,7 @@ class User(db.Model):
 
     def follow(self, user):
         if not self.is_following(user):
-            print self.nickname+' follow '+user.nickname
+            #print self.nickname+' follow '+user.nickname
             self.followed.append(user)
             return self
 
@@ -64,10 +64,22 @@ class User(db.Model):
             return self
 
     def is_following(self, user):
-        print self.nickname+' is_following '+user.nickname
+        #print self.nickname+' is_following '+user.nickname
         return self.followed.filter(
             followers.c.followed_id == user.id
             ).count() > 0
+
+    def followed_posts(self):
+        # join: Post.userid<-->followers.followed_id ==> a new table
+        # filter follower_id == self.id 
+        # order_by
+        return Post.query.join(
+            followers,
+            (followers.c.followed_id == Post.user_id)
+                ).filter( followers.c.follower_id == self.id).order_by(
+                Post.timestamp.desc())
+
+
 
     @staticmethod
     def make_unique_nickname(nickname):
