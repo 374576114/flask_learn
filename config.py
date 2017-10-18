@@ -21,3 +21,7 @@ MAIL_USERNAME = None
 MAIL_PASSWORD = None
 
 ADMINS = ['you@example.com' ]
+
+#flask-whooshalchemy
+WHOOSH_BASE = os.path.join(basedir, 'search.db')
+MAX_SEARCH_RESULTS = 50
