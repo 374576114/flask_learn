@@ -7,7 +7,8 @@
     </td>
     <td>
       <p><a href="url_for('user', nickname=post.author.nickname)}}">
-        {{post.author.nickname}}</a> Say: on {{post.timestamp}}:
+        {{post.author.nickname}}</a> Say: on
+      {{momentjs(post.timestamp).fromNow()}}:
       </p>
       <p><strong>{{post.body}}</strong></p>
     </td>

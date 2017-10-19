@@ -7,9 +7,13 @@ from flask_openid import OpenID
 from config import basedir,ADMINS,MAIL_SERVER,MAIL_PASSWORD,MAIL_PORT,\
         MAIL_USERNAME
 
+from momentjs import momentjs
+
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
+
+app.jinja_env.globals['momentjs'] = momentjs
 
 lm = LoginManager()
 lm.init_app(app)
